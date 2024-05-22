@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('img/t1.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .form-container {
+            max-width: 500px; /* Limitar el ancho del formulario */
+            margin: 100px auto; /* Centrar vertical y horizontalmente */
+            padding: 20px; /* Añadir espacio interno */
+            border-radius: 10px; /* Redondear los bordes */
+            background-color: rgba(0, 0, 0, 0.0); /* Fondo negro transparente */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.0); /* Sombra suave */
+            color: #fff; /* Color de texto blanco */
+        }
+        .form-group {
+            margin-bottom: 20px; /* Añadir espacio entre grupos de formulario */
+        }
+        .form-control {
+            color: #ffffff; /* Cambiar el color del texto a blanco */
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo del campo de formulario transparente */
+            border-color: rgba(255, 255, 255, 0.5); /* Borde del campo de formulario transparente */
+        }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7); /* Color del placeholder blanco y semitransparente */
+        }
+        .btn-primary {
+            background-color: #007bff; /* Cambiar el color de fondo del botón */
+            border-color: #007bff; /* Cambiar el color del borde del botón */
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Cambiar el color de fondo del botón al pasar el cursor */
+            border-color: #0056b3; /* Cambiar el color del borde del botón al pasar el cursor */
+        }
+        a {
+            color: #ffffff; /* Cambiar el color del enlace a blanco */
+        }
+        a:hover {
+            color: #cccccc; /* Cambiar el color del enlace al pasar el cursor */
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2 style="text-align: center; margin-bottom: 35px; color: black;">Iniciar Sesión</h2>
+        
+        <% if (typeof errorMessage !== 'undefined' && errorMessage !== '') { %>
+            <div class="alert alert-danger" role="alert">
+                <%= errorMessage %>
+            </div>
+        <% } %>
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label for="nombre"><strong>Nombre:</strong></label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese su nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="matricula"><strong>Matrícula:</strong></label>
+                <input type="text" class="form-control" id="matricula" name="matricula" placeholder="Ingrese su matrícula" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+        </form>
+        <p style="margin-top: 20px;">¿No tienes una cuenta? <a href="/contacto">Regístrate aquí</a></p>
+    </div>
+</body>
+</html>

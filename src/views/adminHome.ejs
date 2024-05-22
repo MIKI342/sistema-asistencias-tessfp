@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Administrador</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1><%= mensaje %></h1>
+    <h2>Lista de Registros</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Matrícula</th>
+                <th>Carrera</th>
+                <th>Evento</th>
+                <th>Asistió</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% registros.forEach(registro => { %>
+                <tr>
+                    <td><%= registro.nombre %></td>
+                    <td><%= registro.matricula %></td>
+                    <td><%= registro.carrera %></td>
+                    <td><%= registro.evento %></td>
+                    <td><%= registro.asistio %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <!-- Formulario de cierre de sesión -->
+    <form action="/logout" method="POST">
+        <button type="submit">Cerrar Sesión</button>
+    </form>
+</body>
+</html>

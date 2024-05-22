@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Información del Usuario</title>
+    <script>
+        async function enviarOpcion(usuarioId, opcion) {
+            try {
+                const response = await fetch('/modificarAsistencia', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ usuarioId, asistio: opcion })
+                });
+
+                const result = await response.text();
+                alert(result);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ocurrió un error al enviar la opción.');
+            }
+        }
+
+        function procesarQR(contenidoQR) {
+            const datosQR = JSON.parse(contenidoQR);
+            document.getElementById('informacion').innerText = datosQR.informacion;
+
+            document.getElementById('btnSi').onclick = function() {
+                enviarOpcion(datosQR.accion.usuarioId, true);
+            };
+            document.getElementById('btnNo').onclick = function() {
+                enviarOpcion(datosQR.accion.usuarioId, false);
+            };
+        }
+    </script>
+</head>
+<body>
+    <h1>Información del Usuario</h1>
+    <p id="informacion"></p>
+    <button id="btnSi">Sí</button>
+    <button id="btnNo">No</button>
+
+    <script>
+        const contenidoQR = '{"informacion":"Información del usuario:\\nNombre: Juan Perez\\nMatrícula: 123456\\nCarrera: Ingeniería\\nEvento: Conferencia","accion":{"tipo":"modificar","usuarioId":"123456","atributo":"asistio"}}';
+        procesarQR(contenidoQR);
+    </script>
+</body>
+</html>

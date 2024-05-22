@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('img/t1.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="text-align: center; max-width: 1000px; margin: 0 auto 35px;">Registro de asistencia a pláticas y convocatorias de servicio social y residencia profesional</h2>
+
+        <% if (errorMessage) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= errorMessage %>
+            </div>
+        <% } %>
+    
+        <form action="/registro" method="POST">
+            <div class="form-group">
+                <label for="nombre"><strong>Nombre:</strong></label>
+                <input type="text" class="form-control bg-transparent" id="nombre" name="nombre" value="<%= nombre %>" required>
+                <% if (errores && errores.nombre) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= errores.nombre %>
+                    </div>
+                <% } %>
+            </div>
+            <div class="form-group">
+                <label for="matricula"><strong>Matrícula:</strong></label>
+                <input type="text" class="form-control bg-transparent" id="matricula" name="matricula" value="<%= matricula %>" required>
+                <% if (errores && errores.matricula) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= errores.matricula %>
+                    </div>
+                <% } %>
+            </div>
+            <div class="form-group">
+                <label for="carrera"><strong>Carrera:</strong></label>
+                <select class="form-control bg-transparent" id="carrera" name="carrera" required>
+                    <option value="">Seleccione una opción</option>
+                    <option value="Ingeniería informática" <%= carrera === 'Ingeniería informática' ? 'selected' : '' %>>Ingeniería informática</option>
+                    <option value="Ingeniería civil" <%= carrera === 'Ingeniería civil' ? 'selected' : '' %>>Ingeniería civil</option>
+                    <option value="Ingeniería química" <%= carrera === 'Ingeniería química' ? 'selected' : '' %>>Ingeniería química</option>
+                    <option value="Ingeniería en industrias alimentarias" <%= carrera === 'Ingeniería en industrias alimentarias' ? 'selected' : '' %>>Ingeniería en industrias alimentarias</option>
+                    <option value="Contador público" <%= carrera === 'Contador público' ? 'selected' : '' %>>Contador público</option>
+                    <option value="Ingeniería en energías renovables" <%= carrera === 'Ingeniería en energías renovables' ? 'selected' : '' %>>Ingeniería en energías renovables</option>
+                </select>
+                <% if (errores && errores.carrera) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= errores.carrera %>
+                    </div>
+                <% } %>
+            </div>
+            <div class="form-group">
+                <label for="evento"><strong>Evento:</strong></label>
+                <select class="form-control bg-transparent" id="evento" name="evento" required>
+                    <option value="">Seleccione una opción</option>
+                    <option value="Servicio social" <%= evento === 'Servicio social' ? 'selected' : '' %>>Servicio social</option>
+                    <option value="Residencia profesional" <%= evento === 'Residencia profesional' ? 'selected' : '' %>>Residencia profesional</option>
+                </select>
+                <% if (errores && errores.evento) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= errores.evento %>
+                    </div>
+                <% } %>
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar asistencia</button>
+        </form>
+    </div>
+    
+</body>
+</html>

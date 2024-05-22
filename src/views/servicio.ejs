@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicio social</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('img/t2.jpg');
+
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(0, 0, 0, 0.5); /* Ajuste de transparencia más ligera */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            margin-top: 50px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        #qrContainer {
+            margin-bottom: 20px;
+        }
+        button {
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        form {
+            margin-top: 20px;
+        }
+        #convocatoriaImage {
+            display: block;
+            max-width: 1000px;
+            margin: 10px auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Mostrar mensaje de bienvenida con el nombre del usuario -->
+        <h2 id="welcomeMessage">Bienvenido</h2>
+        <h1>Selecciona alguna de las siguientes opciones</h1>
+        
+        <!-- Mostrar solo el código QR -->
+        <div id="qrContainer"></div>
+        
+        <!-- Botón para generar o ocultar código QR -->
+        <button id="generarQRBtn" class="btn btn-primary">QR para confirmar asistencia</button>
+
+        <!-- Botón para generar o eliminar imagen de convocatoria -->
+        <button id="generarConvocatoriaBtn" class="btn btn-primary">Convocatoria</button>
+        
+        <!-- Botón para cerrar sesión -->
+        <form action="/logout" method="POST">
+            <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+        </form>
+    </div>
+    
+    <script>
+        let qrGenerado = false; // Variable para rastrear si el QR ha sido generado
+        let convocatoriaGenerada = false; // Variable para rastrear si la imagen de convocatoria ha sido generada
+
+        window.addEventListener('load', async () => {
+            // Obtener el nombre del usuario de una variable de sesión o similar
+            
+
+            // Event listener para el botón "Generar QR"
+            document.getElementById('generarQRBtn').addEventListener('click', async () => {
+                if (!qrGenerado) {
+                    await generarCodigoQR(); // Generar el código QR si no se ha generado
+                    qrGenerado = true; // Actualizar el estado de qrGenerado
+                } else {
+                    ocultarCodigoQR(); // Ocultar el código QR si ya se ha generado
+                    qrGenerado = false; // Actualizar el estado de qrGenerado
+                }
+            });
+
+            // Event listener para el botón "Generar Convocatoria"
+            document.getElementById('generarConvocatoriaBtn').addEventListener('click', async () => {
+                if (!convocatoriaGenerada) {
+                    await generarConvocatoria(); // Generar la imagen de convocatoria si no se ha generado
+                    convocatoriaGenerada = true; // Actualizar el estado de convocatoriaGenerada
+                } else {
+                    eliminarConvocatoria(); // Eliminar la imagen de convocatoria si ya se ha generado
+                    convocatoriaGenerada = false; // Actualizar el estado de convocatoriaGenerada
+                }
+            });
+        });
+
+        // Función para generar el código QR
+        async function generarCodigoQR() {
+            try {
+                const response = await fetch('/generarQR', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ tipo: 'Asistencia' })
+                });
+                const data = await response.json();
+                console.log('Datos recibidos:', data);
+                
+                const qrImage = document.createElement('img');
+                qrImage.src = data.codigoQR;
+                qrImage.alt = 'Código QR para asistencia';
+                document.getElementById('qrContainer').appendChild(qrImage);
+            } catch (error) {
+                console.error('Error al generar el código QR:', error);
+            }
+        }
+
+        // Función para ocultar el código QR
+        function ocultarCodigoQR() {
+            const qrContainer = document.getElementById('qrContainer');
+            qrContainer.innerHTML = ''; // Eliminar el contenido del contenedor
+        }
+
+        // Función para generar o eliminar la imagen de convocatoria
+        async function generarConvocatoria() {
+            try {
+                // Simulamos la generación de una imagen de convocatoria
+                const convocatoriaImage = document.createElement('img');
+                convocatoriaImage.src = 'img/servicio.jpg';
+                convocatoriaImage.alt = 'Imagen de convocatoria';
+                convocatoriaImage.id = 'convocatoriaImage'; // Asignamos un ID a la imagen para poder eliminarla posteriormente
+                document.body.appendChild(convocatoriaImage); // Agregamos la imagen al final del body
+            } catch (error) {
+                console.error('Error al generar la convocatoria:', error);
+            }
+        }
+
+        // Función para eliminar la imagen de convocatoria
+        function eliminarConvocatoria() {
+            const convocatoriaImage = document.getElementById('convocatoriaImage');
+            if (convocatoriaImage) {
+                convocatoriaImage.remove(); // Eliminamos la imagen de convocatoria si existe
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        .info {
+            margin-bottom: 10px;
+        }
+        .info p {
+            margin: 5px 0;
+            color: #555;
+        }
+        .info span {
+            font-weight: bold;
+        }
+        #cambiarAsistencia {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        #cambiarAsistencia:hover {
+            background-color: #0056b3;
+        }
+        #error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Información del Usuario</h2>
+        <div id="usuarioInfo" class="info">
+            <!-- Aquí se mostrará la información del usuario -->
+        </div>
+        <div id="error"></div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const usuarioInfo = document.getElementById('usuarioInfo');
+            const errorDiv = document.getElementById('error');
+            const params = new URLSearchParams(window.location.search);
+
+            const nombre = params.get('nombre');
+            const matricula = params.get('matricula');
+            const carrera = params.get('carrera');
+            const evento = params.get('evento');
+            let asistio = params.get('asistio');
+
+            console.log('Datos del usuario:', { nombre, matricula, carrera, evento, asistio });
+
+            usuarioInfo.innerHTML = `
+                <p><span>Nombre:</span> ${nombre}</p>
+                <p><span>Matrícula:</span> ${matricula}</p>
+                <p><span>Carrera:</span> ${carrera}</p>
+                <p><span>Evento:</span> ${evento}</p>
+                <p><span>Asistió:</span> <span id="asistio">${asistio}</span></p>
+                <button id="cambiarAsistencia">Cambiar Asistencia</button>
+            `;
+
+            const cambiarAsistenciaBtn = document.getElementById('cambiarAsistencia');
+
+            cambiarAsistenciaBtn.addEventListener('click', async () => {
+                asistio = asistio === 'true' ? 'false' : 'true';
+                document.getElementById('asistio').textContent = asistio;
+
+                console.log('Datos a enviar al servidor:', { matricula, asistio });
+
+                try {
+                    const response = await fetch('/actualizarAsistencia', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ matricula, asistio }) // Enviar matricula y asistio como JSON
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Error al actualizar la asistencia');
+                    }
+
+                    console.log('Asistencia actualizada exitosamente');
+                } catch (error) {
+                    console.error('Error al actualizar la asistencia:', error);
+                    errorDiv.textContent = 'Error al actualizar la asistencia';
+                }
+            });
+        };
+    </script>
+</body>
+</html>

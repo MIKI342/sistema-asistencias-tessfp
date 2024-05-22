@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registrar Asistencia</title>
+    <script>
+        async function enviarRespuesta() {
+            const usuarioId = document.getElementById('usuarioId').value;
+            const respuesta = document.querySelector('input[name="respuesta"]:checked').value;
+
+            const response = await fetch('/registrarAsistencia', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ usuarioId, respuesta }),
+            });
+
+            const result = await response.text();
+            alert(result);
+        }
+    </script>
+</head>
+<body>
+    <h1>Registrar Asistencia</h1>
+    <form onsubmit="event.preventDefault(); enviarRespuesta();">
+        <input type="hidden" id="usuarioId" value="<!-- Aquí insertar el ID del usuario desde el código QR -->">
+        <p>¿El usuario asistió al evento?</p>
+        <label>
+            <input type="radio" name="respuesta" value="Sí"> Sí
+        </label>
+        <label>
+            <input type="radio" name="respuesta" value="No"> No
+        </label>
+        <button type="submit">Enviar Respuesta</button>
+    </form>
+</body>
+</html>

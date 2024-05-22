@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('img/tec.png'); /* Ruta de tu imagen de fondo */
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+        }
+
+        #generarQRButton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #tipoSelect {
+            display: none;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        #qrContainer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #qrContainer img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        form button[type="submit"] {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Bienvenido</h2>
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/residencia">Residencia</a></li>
+                <li><a href="/servicio">Servicio</a></li>
+            </ul>
+        </nav>
+        <button id="generarQRButton">Generar QR para asistencia</button>
+        <select id="tipoSelect">
+            <option value="residencia">Residencia</option>
+            <option value="servicio">Servicio Social</option>
+        </select>
+        <div id="qrContainer"></div>
+        <form action="/logout" method="POST">
+            <button type="submit">Cerrar sesión</button>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('generarQRButton').addEventListener('click', async () => {
+            try {
+                document.getElementById('tipoSelect').style.display = 'block';
+            } catch (error) {
+                console.error('Error al mostrar la lista desplegable:', error);
+            }
+        });
+
+        document.getElementById('tipoSelect').addEventListener('change', async (event) => {
+            try {
+                const tipo = event.target.value;
+                console.log('Tipo seleccionado:', tipo);
+                const response = await fetch('/generarQR', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ tipo })
+                });
+                const data = await response.json();
+                
+                const qrImage = document.createElement('img');
+                qrImage.src = data.codigoQR;
+                qrImage.alt = 'Código QR para asistencia';
+
+                document.getElementById('qrContainer').innerHTML = '';
+                document.getElementById('qrContainer').appendChild(qrImage);
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = data.codigoQR;
+                downloadLink.download = 'codigo_qr.png';
+                downloadLink.innerText = 'Descargar QR';
+
+                document.getElementById('qrContainer').appendChild(downloadLink);
+
+            } catch (error) {
+                console.error('Error al generar el código QR:', error);
+            }
+        });
+    </script>
+</body>
+</html>
