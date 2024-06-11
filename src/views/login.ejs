@@ -50,6 +50,12 @@
 <body>
     <div class="form-container">
         <h2 style="text-align: center; margin-bottom: 35px; color: black;">Iniciar Sesión</h2>
+
+        <% if (typeof successMessage !== 'undefined') { %>
+            <script>
+                alert("<%= successMessage %>");
+            </script>
+        <% } %>
         
         <% if (typeof errorMessage !== 'undefined' && errorMessage !== '') { %>
             <div class="alert alert-danger" role="alert">
@@ -69,5 +75,8 @@
         </form>
         <p style="margin-top: 20px;">¿No tienes una cuenta? <a href="/contacto">Regístrate aquí</a></p>
     </div>
+
+
+
 </body>
 </html>

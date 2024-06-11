@@ -3,90 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de Administrador</title>
+    <title>Admin Home</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
+            background-color: #3cb371; /* Verde */
             margin: 0;
+            padding: 0;
+            color: #fff; /* Texto blanco */
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
             padding: 20px;
+            background-color: rgba(0, 0, 0, 0.8); /* Fondo negro semi-transparente */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center; /* Centra el contenido */
+            display: flex; /* Establece el contenedor como un contenedor flex */
+            flex-direction: column; /* Alinea los elementos en columnas */
+            align-items: center; /* Centra los elementos horizontalmente */
         }
-
-        h1, h2 {
+        h1 {
             text-align: center;
-            color: #333;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border: 1px solid #ccc;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        form {
-            text-align: center;
-            margin-top: 20px;
-        }
-
         button {
-            padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #000; /* Negro */
             color: #fff;
             border: none;
+            padding: 10px 20px;
+            margin: 10px; /* Margen entre botones */
             border-radius: 5px;
-            font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s; /* Transición suave para cambio de color */
         }
-
         button:hover {
-            background-color: #0056b3;
+            background-color: #333; /* Gris oscuro al pasar el ratón */
+        }
+        form {
+            text-align: center;
+            margin-top: 20px; /* Espacio entre los botones y el formulario */
+        }
+        .info {
+            background-color: #444; /* Gris oscuro */
+            color: #fff; /* Texto blanco */
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px; /* Espacio entre los botones y la información */
+            text-align: left;
+        }
+        .info label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .info input[type="text"],
+        .info select {
+            width: calc(100% - 22px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #555; /* Gris */
+            color: #fff; /* Texto blanco */
+        }
+        .info button {
+            background-color: #007bff; /* Azul */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Transición suave para cambio de color */
+        }
+        .info button:hover {
+            background-color: #0056b3; /* Azul oscuro al pasar el ratón */
         }
     </style>
 </head>
 <body>
-    <h1><%= mensaje %></h1>
-    <h2>Lista de Registros</h2>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Matrícula</th>
-                <th>Carrera</th>
-                <th>Evento</th>
-                <th>Asistió</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% registros.forEach(registro => { %>
-                <tr>
-                    <td><%= registro.nombre %></td>
-                    <td><%= registro.matricula %></td>
-                    <td><%= registro.carrera %></td>
-                    <td><%= registro.evento %></td>
-                    <td><%= registro.asistio %></td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
+    <div class="container">
+        <h1>Bienvenido, Administrador</h1>
+        <div>
+            <button onclick="toggleFormulario()">Registrar Plática</button>
+            <button onclick="toggleAlumnos()">Ver Alumnos</button>
+        </div>
 
-    <!-- Formulario de cierre de sesión -->
-    <form action="/logout" method="POST">
-        <button type="submit">Cerrar Sesión</button>
-    </form>
+        <div id="formulario" style="display: none;">
+            <div class="info">
+                <h2>Formulario para Registrar Plática</h2>
+                <form action="/admin/update" method="POST">
+                    <label for="tipoPlatica">Tipo de Plática:</label>
+                    <select id="tipoPlatica" name="tipoPlatica">
+                        <option value="Residencia profesional">Residencia profesional</option>
+                        <option value="Servicio social">Servicio social</option>
+                    </select><br>
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha"><br>
+                    <label for="lugar">Lugar:</label>
+                    <input type="text" id="lugar" name="lugar"><br>
+                    <button type="submit">Actualizar</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="seleccionAlumnos" style="display: none;">
+            <div class="info">
+                <h2>Seleccione el tipo de alumnos</h2>
+                <label for="opcionAlumnos">Seleccione el tipo de alumnos:</label>
+                <select id="opcionAlumnos">
+                    <option value="residencia">Residencia profesional</option>
+                    <option value="servicio">Servicio social</option>
+                </select><br>
+                <button onclick="redirigir()">Ver</button>
+            </div>
+        </div>
+
+        <form action="/logout" method="POST">
+            <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleFormulario() {
+            var formulario = document.getElementById('formulario');
+            if (formulario.style.display === 'none') {
+                formulario.style.display = 'block';
+            } else {
+                formulario.style.display = 'none';
+            }
+        }
+
+        function toggleAlumnos() {
+            var seleccionAlumnos = document.getElementById('seleccionAlumnos');
+            if (seleccionAlumnos.style.display === 'none') {
+                seleccionAlumnos.style.display = 'block';
+            } else {
+                seleccionAlumnos.style.display = 'none';
+            }
+        }
+
+        function redirigir() {
+            var opcionSeleccionada = document.getElementById('opcionAlumnos').value;
+            if (opcionSeleccionada === 'residencia') {
+                window.location.href = '/ver_alumnos_residencia'; // Redirige a la página para ver alumnos de residencia
+            } else if (opcionSeleccionada === 'servicio') {
+                window.location.href = '/ver_alumnos_servicio'; // Redirige a la página para ver alumnos de servicio social
+            }
+        }
+    </script>
 </body>
 </html>
+
+

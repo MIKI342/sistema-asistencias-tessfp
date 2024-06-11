@@ -14,67 +14,145 @@
     </style>
 </head>
 <body>
+
+  
+
+    
     <div class="container">
         <h2 style="text-align: center; max-width: 1000px; margin: 0 auto 35px;">Registro de asistencia a pláticas y convocatorias de servicio social y residencia profesional</h2>
 
-        <% if (errorMessage) { %>
+        <!-- Aquí puedes mostrar mensajes de error si los hay -->
+    
+        <% if(errorMessage) { %>
             <div class="alert alert-danger" role="alert">
                 <%= errorMessage %>
             </div>
         <% } %>
     
-        <form action="/registro" method="POST">
+        <form id="registroForm" method="POST">
             <div class="form-group">
                 <label for="nombre"><strong>Nombre:</strong></label>
-                <input type="text" class="form-control bg-transparent" id="nombre" name="nombre" value="<%= nombre %>" required>
-                <% if (errores && errores.nombre) { %>
-                    <div class="alert alert-danger" role="alert">
-                        <%= errores.nombre %>
-                    </div>
-                <% } %>
+                <input type="text" class="form-control bg-transparent" id="nombre" name="nombre" required>
             </div>
+
+            <div class="form-group">
+                <label for="ap"><strong>Apellido paterno:</strong></label>
+                <input type="text" class="form-control bg-transparent" id="ap" name="ap" required>
+            </div>
+
+            <div class="form-group">
+                <label for="am"><strong>Apellido materno:</strong></label>
+                <input type="text" class="form-control bg-transparent" id="am" name="am" required>
+            </div>
+           
             <div class="form-group">
                 <label for="matricula"><strong>Matrícula:</strong></label>
-                <input type="text" class="form-control bg-transparent" id="matricula" name="matricula" value="<%= matricula %>" required>
-                <% if (errores && errores.matricula) { %>
-                    <div class="alert alert-danger" role="alert">
-                        <%= errores.matricula %>
-                    </div>
-                <% } %>
+                <input type="text" class="form-control bg-transparent" id="matricula" name="matricula" required>
             </div>
+
+        
             <div class="form-group">
                 <label for="carrera"><strong>Carrera:</strong></label>
                 <select class="form-control bg-transparent" id="carrera" name="carrera" required>
                     <option value="">Seleccione una opción</option>
-                    <option value="Ingeniería informática" <%= carrera === 'Ingeniería informática' ? 'selected' : '' %>>Ingeniería informática</option>
-                    <option value="Ingeniería civil" <%= carrera === 'Ingeniería civil' ? 'selected' : '' %>>Ingeniería civil</option>
-                    <option value="Ingeniería química" <%= carrera === 'Ingeniería química' ? 'selected' : '' %>>Ingeniería química</option>
-                    <option value="Ingeniería en industrias alimentarias" <%= carrera === 'Ingeniería en industrias alimentarias' ? 'selected' : '' %>>Ingeniería en industrias alimentarias</option>
-                    <option value="Contador público" <%= carrera === 'Contador público' ? 'selected' : '' %>>Contador público</option>
-                    <option value="Ingeniería en energías renovables" <%= carrera === 'Ingeniería en energías renovables' ? 'selected' : '' %>>Ingeniería en energías renovables</option>
+                    <option value="Ingeniería informática">Ingeniería informática</option>
+                    <option value="Ingeniería civil">Ingeniería civil</option>
+                    <option value="Ingeniería química">Ingeniería química</option>
+                    <option value="Ingeniería en industrias alimentarias">Ingeniería en industrias alimentarias</option>
+                    <option value="Contador público">Contador público</option>
+                    <option value="Ingeniería en energías renovables">Ingeniería en energías renovables</option>
                 </select>
-                <% if (errores && errores.carrera) { %>
-                    <div class="alert alert-danger" role="alert">
-                        <%= errores.carrera %>
-                    </div>
-                <% } %>
             </div>
+
+            <div class="form-group">
+                <label for="g"><strong>Grupo:</strong></label>
+                <input type="number" class="form-control bg-transparent" id="g" name="g" required>
+            </div>
+
             <div class="form-group">
                 <label for="evento"><strong>Evento:</strong></label>
                 <select class="form-control bg-transparent" id="evento" name="evento" required>
                     <option value="">Seleccione una opción</option>
-                    <option value="Servicio social" <%= evento === 'Servicio social' ? 'selected' : '' %>>Servicio social</option>
-                    <option value="Residencia profesional" <%= evento === 'Residencia profesional' ? 'selected' : '' %>>Residencia profesional</option>
+                    <option value="Servicio social">Servicio social</option>
+               
+                    <option value="Residencia profesional">Residencia profesional</option>
                 </select>
-                <% if (errores && errores.evento) { %>
-                    <div class="alert alert-danger" role="alert">
-                        <%= errores.evento %>
-                    </div>
-                <% } %>
             </div>
-            <button type="submit" class="btn btn-primary">Registrar asistencia</button>
+            
+            
+        
+            <button type="button" class="btn btn-secondary" onclick="confirmarCancelacion()">Cancelar</button>
+        
         </form>
     </div>
+
+    <script>
+        function guardarFormulario() {
+            var nombre = document.getElementById('nombre').value;
+            var ap = document.getElementById('ap').value;
+            var am = document.getElementById('am').value;
+            var matricula = document.getElementById('matricula').value;
+            var carrera = document.getElementById('carrera').value;
+            var g = document.getElementById('g').value;
+            
+    
+            localStorage.setItem('nombre', nombre);
+            localStorage.setItem('ap', ap);
+            localStorage.setItem('am', am);
+            localStorage.setItem('matricula', matricula);
+            localStorage.setItem('carrera', carrera);
+            localStorage.setItem('g', g);
+            
+           
+        }
+    
+        window.onload = function() {
+            document.getElementById('nombre').value = localStorage.getItem('nombre') || '';
+            document.getElementById('ap').value = localStorage.getItem('ap') || '';
+            document.getElementById('am').value = localStorage.getItem('am') || '';
+            document.getElementById('matricula').value = localStorage.getItem('matricula') || '';
+            document.getElementById('carrera').value = localStorage.getItem('carrera') || '';
+            document.getElementById('g').value = localStorage.getItem('g') || '';
+          
+        };
+    
+        function confirmarCancelacion() {
+            if (confirm("¿Seguro que deseas cancelar?")) {
+                window.location.href = '/';
+            }
+        }
+    
+        document.getElementById("evento").addEventListener("change", function() {
+            var eventoSeleccionado = document.getElementById("evento").value;
+            if (eventoSeleccionado === "Residencia profesional") {
+                guardarFormulario(); // Guardar el formulario antes de redirigir
+                window.location.href = "/formulario-residencia?" + "nombre=" + encodeURIComponent(localStorage.getItem('nombre')) +
+                    "&ap=" + encodeURIComponent(localStorage.getItem('ap')) +
+                    "&am=" + encodeURIComponent(localStorage.getItem('am')) +
+                    "&matricula=" + encodeURIComponent(localStorage.getItem('matricula')) +
+                    "&carrera=" + encodeURIComponent(localStorage.getItem('carrera')) +
+                    "&g=" + encodeURIComponent(localStorage.getItem('g')) +
+                    "&evento=" + encodeURIComponent(localStorage.getItem('evento'));
+            }   if (eventoSeleccionado === "Servicio social") {
+                guardarFormulario(); // Guardar el formulario antes de redirigir
+                window.location.href = "/formulario-servicio?" + "nombre=" + encodeURIComponent(localStorage.getItem('nombre')) +
+                    "&ap=" + encodeURIComponent(localStorage.getItem('ap')) +
+                    "&am=" + encodeURIComponent(localStorage.getItem('am')) +
+                    "&matricula=" + encodeURIComponent(localStorage.getItem('matricula')) +
+                    "&carrera=" + encodeURIComponent(localStorage.getItem('carrera')) +
+                    "&g=" + encodeURIComponent(localStorage.getItem('g')) +
+                    "&evento=" + encodeURIComponent(localStorage.getItem('evento'));
+            }
+        });
+    </script>
+    
+     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+   
+
     
 </body>
 </html>

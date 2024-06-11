@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumnos de Servicio Social</title>
+    <style>
+        .details {
+            display: none;
+        }
+        .show-details {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alumnos de Servicio Social</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Matrícula</th>
+                <th>Carrera</th>
+                <th>Asistió</th>
+                <th>Fecha platica</th>
+                <th>Detalles</th>
+                
+
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Itera sobre los alumnos recuperados y muestra cada uno en una fila de la tabla -->
+            <% alumnosServicio.forEach(function(alumno, index) { %>
+                <tr>
+                    <td><%= alumno.nombre %> <%= alumno.am %> <%= alumno.ap %></td>
+                    <td><%= alumno.matricula %></td>
+                    <td><%= alumno.carrera %></td>
+                    <td><%= alumno.asistio ? 'Sí' : 'No' %></td>
+                    <td><%= alumno.eventoData.servicio.fecha %></td>
+
+                    
+                    <td class="show-details" onclick="toggleDetails(<%= index %>)">Mostrar más</td>
+                </tr>
+                <tr class="details" id="details-<%= index %>">
+                    <td colspan="5">
+                        <!-- Detalles adicionales del alumno -->
+                        
+                        <h2>Datos escolaridad</h2>
+
+
+                        <p><strong>Numero de cuenta:</strong> <%= alumno.nombre %> <%= alumno.am %> <%= alumno.ap %></p>
+                        <p><strong>Carrera:</strong><%= alumno.carrera %></p>
+                        <p><strong>Grupo:</strong> <%= alumno.g %></p>
+                       
+
+
+                        <p><strong>Promedio:</strong> <%= alumno.eventoData.servicio.promedio %></p>
+                        <p><strong>Créditos:</strong> <%= alumno.eventoData.servicio.creditos %></p>
+                        
+                        <h2>Datos del programa de servicio social</h2>
+                        <p><strong>Entidad Receptora:</strong> <%= alumno.eventoData.servicio.entidad_receptora %></p>
+                        <p><strong>Tipo:</strong> <%= alumno.eventoData.servicio.tip %></p>
+                        <p><strong>RFC:</strong> <%= alumno.eventoData.servicio.rfc %></p>
+                        <p><strong>Código Postal:</strong> <%= alumno.eventoData.servicio.cp %></p>
+                        <p><strong>Municipio:</strong> <%= alumno.eventoData.servicio.municipio %></p>
+                        <p><strong>Localidad:</strong> <%= alumno.eventoData.servicio.localidad %></p>
+                        <p><strong>Titular:</strong> <%= alumno.eventoData.servicio.titular %></p>
+                        <p><strong>Nombre del Responsable:</strong> <%= alumno.eventoData.servicio.nombre_responsable %></p>
+                        <p><strong>Teléfono:</strong> <%= alumno.eventoData.servicio.telefono %></p>
+                        <p><strong>Correo:</strong> <%= alumno.eventoData.servicio.correo %></p>
+                        <p><strong>Fecha Inicio:</strong> <%= alumno.eventoData.servicio.fechai %></p>
+                        <p><strong>Fecha Termino:</strong> <%= alumno.eventoData.servicio.fechat %></p>
+                        <p><strong>Nombre del Programa:</strong> <%= alumno.eventoData.servicio.nombre_programa %></p>
+                        <p><strong>Actividades:</strong> <%= alumno.eventoData.servicio.actividades %></p>
+                        <p><strong>Dependencia:</strong> <%= alumno.eventoData.servicio.dependencia %></p>
+                        <p><strong>Área:</strong> <%= alumno.eventoData.servicio.area %></p>
+                        <p><strong>Grado Académico:</strong> <%= alumno.eventoData.servicio.grado_academico %></p>
+                        <p><strong>Cargo:</strong> <%= alumno.eventoData.servicio.cargo %></p>
+                        <p><strong>Tipo de Programa:</strong> <%= alumno.eventoData.servicio.tipo_programa %></p>
+                        <h2>Para uso esclusivo del departamento de servicio social y residencia profesional</h2>
+                        <p><strong>Aceptado:</strong> <%= alumno.eventoData.servicio.aceptado %></p>
+                        <p><strong>Observaciones:</strong> <%= alumno.eventoData.servicio.observaciones %></p>
+                       
+                        
+
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    
+    <button onclick="window.history.back()">Regresar</button> <!-- Botón para regresar -->
+    
+
+    <script>
+        function toggleDetails(index) {
+            var detailsRow = document.getElementById('details-' + index);
+            if (detailsRow.style.display === 'none' || detailsRow.style.display === '') {
+                detailsRow.style.display = 'table-row';
+            } else {
+                detailsRow.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

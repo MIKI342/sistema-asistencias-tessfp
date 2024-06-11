@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Código QR</title>
+</head>
+<body>
+    <h1><%= successMessage %></h1>
+    <div>
+        <!-- Debugging: Mostrar datos en consola -->
+        <script>
+            console.log('Fecha:', '<%= fecha %>');
+            console.log('Lugar:', '<%= lugar %>');
+            console.log('Tipo de Plática:', '<%= tipo_platica %>');
+        </script>
+
+        <!-- Mostrar detalles de la plática -->
+        <h2>Platica <%= tipo_platica %></h2>
+        <ul>
+            <li><strong>Fecha:</strong> <%= fecha %></li>
+            <li><strong>Lugar:</strong> <%= lugar %></li>
+            <li><strong>Tipo de Plática:</strong> <%= tipo_platica %></li>
+        </ul>
+
+        <img src="<%= qrCode %>" alt="Código QR">
+        <p>
+            <a href="<%= qrCode %>" download="codigoQR.png">Descargar Código QR</a>
+        </p>
+    </div>
+
+    <form action="/logout" method="POST">
+        <button type="submit" class="btn btn-danger">home</button>
+    </form>
+</body>
+</html>

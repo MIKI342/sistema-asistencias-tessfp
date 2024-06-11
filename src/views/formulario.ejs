@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario</title>
     <style>
+        /* Estilos CSS */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f2f5;
@@ -87,7 +88,7 @@
                 <p><span>Nombre:</span> ${nombre}</p>
                 <p><span>Matrícula:</span> ${matricula}</p>
                 <p><span>Carrera:</span> ${carrera}</p>
-                <p><span>Evento:</span> ${evento}</p>
+                
                 <p><span>Asistió:</span> <span id="asistio">${asistio}</span></p>
                 <button id="cambiarAsistencia">Cambiar Asistencia</button>
             `;
@@ -95,6 +96,16 @@
             const cambiarAsistenciaBtn = document.getElementById('cambiarAsistencia');
 
             cambiarAsistenciaBtn.addEventListener('click', async () => {
+                // Pedir la contraseña al usuario
+                const contraseña = prompt('Introduce la contraseña para cambiar la asistencia:');
+                
+                // Verificar si la contraseña es correcta (en este caso, "123")
+                if (contraseña !== '123') {
+                    alert('Contraseña incorrecta. No se pudo cambiar la asistencia.');
+                    return;
+                }
+
+                // Cambiar la asistencia
                 asistio = asistio === 'true' ? 'false' : 'true';
                 document.getElementById('asistio').textContent = asistio;
 

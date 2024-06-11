@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario para Registro de Servicio</title>
+</head>
+<body>
+    <h1>Formulario para Registro de Servicio</h1>
+    <form action="/procesar-formulario-servicio" method="POST" onsubmit="return validarFormulario()">
+        <h2>Datos del Estudiante</h2>
+        <label for="promedio">Promedio:</label>
+        <input type="text" id="promedio" name="promedio" required pattern="^\d+(\.\d{1,2})?$" title="Ingrese un promedio válido (por ejemplo, 9.5)"><br><br>
+        <label for="creditos">Créditos:</label>
+        <input type="number" id="creditos" name="creditos" required min="0" max="300" title="Ingrese un número de créditos válido"><br><br>
+        <label for="nombre_programa">Nombre del Programa:</label>
+        <input type="text" id="nombre_programa" name="nombre_programa" required><br><br>
+        <label for="actividades">Actividades a Realizar:</label>
+        <textarea id="actividades" name="actividades" required></textarea><br><br>
+
+        <h2>Datos del Estudiante</h2>
+
+        <div class="form-group">
+            <label for="nombre"><strong>Nombre:</strong></label>
+            <input type="text" class="form-control bg-transparent" id="nombre" name="nombre" required>
+        </div>
+
+        <div class="form-group">
+            <label for="ap"><strong>Apellido paterno:</strong></label>
+            <input type="text" class="form-control bg-transparent" id="ap" name="ap" required>
+        </div>
+
+        <div class="form-group">
+            <label for="am"><strong>Apellido materno:</strong></label>
+            <input type="text" class="form-control bg-transparent" id="am" name="am" required>
+        </div>
+
+        <div class="form-group">
+            <label for="matricula"><strong>Matrícula:</strong></label>
+            <input type="text" class="form-control bg-transparent" id="matricula" name="matricula" required pattern="^[A-Za-z0-9]+$" title="La matrícula solo debe contener letras y números">
+        </div>
+
+        <div class="form-group">
+            <label for="carrera"><strong>Carrera:</strong></label>
+            <input type="text" class="form-control bg-transparent" id="carrera" name="carrera" required>
+        </div>
+
+        <div class="form-group">
+            <label for="g"><strong>Grupo:</strong></label>
+            <input type="number" class="form-control bg-transparent" id="g" name="g" required min="1" title="Ingrese un número de grupo válido">
+        </div>
+
+        <div class="form-group" style="display: none;">
+            <label for="evento"><strong>Evento:</strong></label>
+            <input type="text" class="form-control bg-transparent" id="evento" name="evento" value="residencia" required>
+        </div>
+
+        <h2>Datos de la Entidad Receptora</h2>
+        <label for="entidad_receptora">Entidad Receptora:</label>
+        <input type="text" id="entidad_receptora" name="entidad_receptora" required><br><br>
+        <label for="tip">Tipo de Entidad:</label>
+        <select id="tip" name="tip" required>
+            <option value="">Seleccione una opción</option>
+            <option value="Federal">Federal</option>
+            <option value="Estatal">Estatal</option>
+            <option value="Municipal">Municipal</option>
+            <option value="O.N.G">O.N.G</option>
+            <option value="I.E">I.E</option>
+            <option value="I.P">I.P</option>
+        </select><br><br>
+        <label for="rfc">RFC:</label>
+        <input type="text" id="rfc" name="rfc" required pattern="^[A-ZÑ&]{3,4}\d{6}(?:[A-Z\d]{3})?$" title="Ingrese un RFC válido"><br><br>
+        <label for="cp">Código Postal:</label>
+        <input type="text" id="cp" name="cp" required pattern="^\d{5}$" title="Ingrese un código postal válido"><br><br>
+        <label for="municipio">Municipio:</label>
+        <input type="text" id="municipio" name="municipio" required><br><br>
+        <label for="localidad">Localidad:</label>
+        <input type="text" id="localidad" name="localidad" required><br><br>
+        <label for="titular">Titular de la Entidad:</label>
+        <input type="text" id="titular" name="titular" required><br><br>
+        <label for="nombre_responsable">Nombre del Responsable:</label>
+        <input type="text" id="nombre_responsable" name="nombre_responsable" required><br><br>
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" name="telefono" required pattern="^\d{10}$" title="Ingrese un número de teléfono válido (10 dígitos)"><br><br>
+        <label for="correo">Correo Electrónico:</label>
+        <input type="email" id="correo" name="correo" required><br><br>
+        <label for="fechai">Fecha de Inicio:</label>
+        <input type="date" id="fechai" name="fechai" required><br><br>
+        <label for="fechat">Fecha de Termino:</label>
+        <input type="date" id="fechat" name="fechat" required><br><br>
+
+        <h2>Detalles del Programa</h2>
+        <label for="dependencia">Dependencia:</label>
+        <input type="text" id="dependencia" name="dependencia" required><br><br>
+        <label for="area">Área de Trabajo:</label>
+        <input type="text" id="area" name="area" required><br><br>
+        <label for="grado_academico">Grado Académico Requerido:</label>
+        <input type="text" id="grado_academico" name="grado_academico" required><br><br>
+        <label for="cargo">Cargo o Puesto:</label>
+        <input type="text" id="cargo" name="cargo" required><br><br>
+        <label for="tipo_programa">Tipo de Programa:</label>
+        <input type="text" id="tipo_programa" name="tipo_programa" required><br><br>
+        <label for="aceptado">¿Aceptado en el Programa?:</label>
+        <select id="aceptado" name="aceptado" required>
+            <option value="">Seleccione una opción</option>
+            <option value="Si">Si</option>
+            <option value="No">No</option>
+        </select><br><br>
+
+        <h2>Observaciones</h2>
+        <label for="observaciones">Observaciones:</label>
+        <textarea id="observaciones" name="observaciones" required></textarea><br><br>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        window.onload = function() {
+            // Obtener los parámetros de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Obtener los valores de los parámetros
+            const nombre = urlParams.get('nombre') || '';
+            const ap = urlParams.get('ap') || '';
+            const am = urlParams.get('am') || '';
+            const matricula = urlParams.get('matricula') || '';
+            const carrera = urlParams.get('carrera') || '';
+            const g = urlParams.get('g') || '';
+            const evento = urlParams.get('evento') || '';
+
+            // Asignar los valores a los campos del formulario
+            document.getElementById('nombre').value = nombre;
+            document.getElementById('ap').value = ap;
+            document.getElementById('am').value = am;
+            document.getElementById('matricula').value = matricula;
+            document.getElementById('carrera').value = carrera;
+            document.getElementById('g').value = g;
+            document.getElementById('evento').value = evento;
+        };
+
+        function validarFormulario() {
+            const fechaInicio = document.getElementById('fechai').value;
+            const fechaTermino = document.getElementById('fechat').value;
+            if (fechaInicio > fechaTermino) {
+                alert('La fecha de inicio no puede ser mayor que la fecha de término.');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

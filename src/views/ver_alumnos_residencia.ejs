@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumnos de Residencia</title>
+    <style>
+        .details {
+            display: none;
+        }
+        .show-details {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alumnos de Residencia</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Matrícula</th>
+                <th>Carrera</th>
+                <th>Asistió</th>
+                <th>Fecha platica</th>
+                <th>Detalles</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Itera sobre los alumnos recuperados y muestra cada uno en una fila de la tabla -->
+            <% alumnosResidencia.forEach(function(alumno, index) { %>
+                <tr>
+                    <td><%= alumno.nombre %> <%= alumno.am %> <%= alumno.ap %></td>
+                    <td><%= alumno.matricula %></td>
+                    <td><%= alumno.carrera %></td>
+                    <td><%= alumno.asistio ? 'Sí' : 'No' %></td>
+                    <td><%= alumno.eventoData.residencia.fecha %></td>
+                    <td class="show-details" onclick="toggleDetails(<%= index %>)">Mostrar más</td>
+                </tr>
+                <tr class="details" id="details-<%= index %>">
+                    <td colspan="5">
+                        <!-- Detalles adicionales del alumno -->
+
+
+
+                        <h2>Datos de la entidad receptora</h2>
+                        <p><strong>Razón Social:</strong> <%= alumno.eventoData.residencia.razon_social %></p>
+                        <p><strong>RFC/CCT:</strong> <%= alumno.eventoData.residencia.rfc_cct %></p>
+                        <p><strong>Dirección:</strong> <%= alumno.eventoData.residencia.direccion %></p>
+                        <p><strong>Código Postal:</strong> <%= alumno.eventoData.residencia.codigo_postal %></p>
+                        <p><strong>Colonia:</strong> <%= alumno.eventoData.residencia.colonia %></p>
+                        <p><strong>Municipio:</strong> <%= alumno.eventoData.residencia.municipio %></p>
+                        <p><strong>Estado:</strong> <%= alumno.eventoData.residencia.estado %></p>
+                        <p><strong>Tipo de Dependencia:</strong> <%= alumno.eventoData.residencia.tipo_dependencia %></p>
+                        
+                        <h2>Persona a quien se dirige la carta de presentación</h2>
+                        <p><strong>Grado Académico:</strong> <%= alumno.eventoData.residencia.grado_academico %></p>
+                        <p><strong>Nombre de la Persona:</strong> <%= alumno.eventoData.residencia.nombre_persona %></p>
+                        <p><strong>Cargo/Puesto:</strong> <%= alumno.eventoData.residencia.cargo_puesto %></p>
+                        <h2>Responsable de los estudiantes de residencia profesional</h2>
+                        <p><strong>Nombre del Responsable:</strong> <%= alumno.eventoData.residencia.nombre_responsable %></p>
+                        <p><strong>Cargo del Responsable:</strong> <%= alumno.eventoData.residencia.cargo_responsable %></p>
+                        <p><strong>Contacto del Responsable:</strong> <%= alumno.eventoData.residencia.contacto_responsable %></p>
+                        <p><strong>Email del Responsable:</strong> <%= alumno.eventoData.residencia.email_responsable %></p>
+                    
+                        <h2>Datos del estudiante</h2>
+                        <p><strong>Nombre:</strong> <%= alumno.nombre %> <%= alumno.am %> <%= alumno.ap %></p>
+                        <p><strong>Numero de cuenta:</strong> <%= alumno.matricula %> </p>
+                        <p><strong>Grupo:</strong> <%= alumno.g %> </p>
+                        <p><strong>Carrera:</strong> <%= alumno.carrera %> </p>
+                        <p><strong>Total creditos:</strong> <%= alumno.eventoData.residencia.total_creditos %></p>
+                        <p><strong>Promedio:</strong> <%= alumno.eventoData.residencia.promedio %> </p>
+                       
+                        <p><strong>Telefono:</strong> <%= alumno.eventoData.residencia.telefono_estudiante %></p>
+                        <p><strong>Correo electronico:</strong> <%= alumno.eventoData.residencia.email_estudiante %></p>
+                        <p><strong>Dirección:</strong> <%= alumno.eventoData.residencia.direccion_referencia %></p>
+                        <p><strong>Colonia:</strong> <%= alumno.eventoData.residencia.colonia_estudiante %></p>
+                        <p><strong>Municipio:</strong> <%= alumno.eventoData.residencia.municipio_estudiante %></p>
+                        <p><strong>Estado:</strong> <%= alumno.eventoData.residencia.estado_estudiante %></p>
+                        <p><strong>Fecha de nacimiento:</strong> <%= alumno.eventoData.residencia.fecha_nacimiento %></p>
+                        <p><strong>NSS IMSS:</strong> <%= alumno.eventoData.residencia.nss_imss %></p>
+                       
+                    
+                    
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <button onclick="window.history.back()">Regresar</button> <!-- Botón para regresar -->
+    
+
+    <script>
+        function toggleDetails(index) {
+            var detailsRow = document.getElementById('details-' + index);
+            if (detailsRow.style.display === 'none' || detailsRow.style.display === '') {
+                detailsRow.style.display = 'table-row';
+            } else {
+                detailsRow.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
