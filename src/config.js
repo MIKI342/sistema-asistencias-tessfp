@@ -2,8 +2,9 @@ import { config } from 'dotenv'
 
 config()
 
-console.log(process.env.MONGODB);
 
+
+export const MONGODB_URI = process.env.MONGODB_URI  || 'mongodb://localhost/test';
 
 // config.js
 const informacionPredeterminada = {
