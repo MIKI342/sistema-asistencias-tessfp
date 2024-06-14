@@ -3,21 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Formulario para Registro de Servicio</title>
-</head>
-<body>
-    <h1>Formulario para Registro de Servicio</h1>
-    <form action="/procesar-formulario-servicio" method="POST" onsubmit="return validarFormulario()">
-        <h2>Datos del Estudiante</h2>
-        <label for="promedio">Promedio:</label>
-        <input type="text" id="promedio" name="promedio" required pattern="^\d+(\.\d{1,2})?$" title="Ingrese un promedio válido (por ejemplo, 9.5)"><br><br>
-        <label for="creditos">Créditos:</label>
-        <input type="number" id="creditos" name="creditos" required min="0" max="300" title="Ingrese un número de créditos válido"><br><br>
-        <label for="nombre_programa">Nombre del Programa:</label>
-        <input type="text" id="nombre_programa" name="nombre_programa" required><br><br>
-        <label for="actividades">Actividades a Realizar:</label>
-        <textarea id="actividades" name="actividades" required></textarea><br><br>
 
-        <h2>Datos del Estudiante</h2>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        h1, h2 {
+            margin-top: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+
+<body>
+    
+    <form action="/procesar-formulario-servicio" method="POST" onsubmit="return validarFormulario()">
+        <h1>Formulario para Registro de Servicio Social</h1>
+        <h2>Datos escolaridad</h2>
 
         <div class="form-group">
             <label for="nombre"><strong>Nombre:</strong></label>
@@ -48,13 +87,20 @@
             <label for="g"><strong>Grupo:</strong></label>
             <input type="number" class="form-control bg-transparent" id="g" name="g" required min="1" title="Ingrese un número de grupo válido">
         </div>
+        <label for="promedio">Promedio:</label>
+        <input type="text" id="promedio" name="promedio" required pattern="^\d+(\.\d{1,2})?$" title="Ingrese un promedio válido (por ejemplo, 9.5)"><br><br>
+        <label for="creditos">Créditos:</label>
+        <input type="number" id="creditos" name="creditos" required min="0" max="300" title="Ingrese un número de créditos válido"><br><br>
+        
+
+        
 
         <div class="form-group" style="display: none;">
             <label for="evento"><strong>Evento:</strong></label>
             <input type="text" class="form-control bg-transparent" id="evento" name="evento" value="residencia" required>
         </div>
 
-        <h2>Datos de la Entidad Receptora</h2>
+        <h2>Datos del programa de servicio social</h2>
         <label for="entidad_receptora">Entidad Receptora:</label>
         <input type="text" id="entidad_receptora" name="entidad_receptora" required><br><br>
         <label for="tip">Tipo de Entidad:</label>
@@ -67,7 +113,7 @@
             <option value="I.E">I.E</option>
             <option value="I.P">I.P</option>
         </select><br><br>
-        <label for="rfc">RFC:</label>
+        <label for="rfc">RFC o CCT:</label>
         <input type="text" id="rfc" name="rfc" required pattern="^[A-ZÑ&]{3,4}\d{6}(?:[A-Z\d]{3})?$" title="Ingrese un RFC válido"><br><br>
         <label for="cp">Código Postal:</label>
         <input type="text" id="cp" name="cp" required pattern="^\d{5}$" title="Ingrese un código postal válido"><br><br>
@@ -87,8 +133,10 @@
         <input type="date" id="fechai" name="fechai" required><br><br>
         <label for="fechat">Fecha de Termino:</label>
         <input type="date" id="fechat" name="fechat" required><br><br>
-
-        <h2>Detalles del Programa</h2>
+        <label for="nombre_programa">Nombre del Programa:</label>
+        <input type="text" id="nombre_programa" name="nombre_programa" required><br><br>
+        <label for="actividades">Actividades a Realizar:</label>
+        <textarea id="actividades" name="actividades" required></textarea><br><br>
         <label for="dependencia">Dependencia:</label>
         <input type="text" id="dependencia" name="dependencia" required><br><br>
         <label for="area">Área de Trabajo:</label>
@@ -97,8 +145,36 @@
         <input type="text" id="grado_academico" name="grado_academico" required><br><br>
         <label for="cargo">Cargo o Puesto:</label>
         <input type="text" id="cargo" name="cargo" required><br><br>
-        <label for="tipo_programa">Tipo de Programa:</label>
-        <input type="text" id="tipo_programa" name="tipo_programa" required><br><br>
+        
+        
+        
+
+        <label for="tipo_programa">Tipo de programa:</label>
+        <select id="tipo_programa" name="tipo_programa" required>
+            <option value="">Seleccione una opción</option>
+            <option value="Salud">Salud</option>
+            <option value="Grupos vulnerables, con capacidades diferentes, infantes, y tercera edad">Grupos vulnerables, con capacidades diferentes, infantes, y tercera edad</option>
+            <option value="Asistencia y seguridad social">Asistencia y seguridad social</option>
+            <option value="Apoyo a proyectos productivos">Apoyo a proyectos productivos</option>
+            <option value="Desarrollo urbano">Desarrollo urbano</option>
+            <option value="Vivienda">Vivienda</option>
+            <option value="Medio ambiente">Medio ambiente</option>
+            <option value="Gobierno, justicia y seguridad pública">Gobierno, justicia y seguridad pública</option>
+            <option value="Política y planeación económica y social">Política y planeación económica y social</option>
+            <option value="Empleo y capacitación para el trabajo">Empleo y capacitación para el trabajo</option>
+            <option value="Desarrollo tecnológico">Desarrollo tecnológico</option>
+            <option value="Pueblos indígenas">Pueblos indígenas</option>
+            <option value="Alimentación y nutrición">Alimentación y nutrición</option>
+            <option value="Comercio, abasto y almacenamiento de productos básicos">Comercio, abasto y almacenamiento de productos básicos</option>
+            <option value="Infraestructura hidráulica y de saneamiento">Infraestructura hidráulica y de saneamiento</option>
+            <option value="Educación, arte, cultura y deporte">Educación, arte, cultura y deporte</option>
+            <option value="Derechos humanos">Derechos humanos</option>
+            
+        </select><br><br>
+
+
+
+        <h2>Para uso exclusivo del departamento de servicio social y residencia profesional</h2>
         <label for="aceptado">¿Aceptado en el Programa?:</label>
         <select id="aceptado" name="aceptado" required>
             <option value="">Seleccione una opción</option>
@@ -110,7 +186,10 @@
         <label for="observaciones">Observaciones:</label>
         <textarea id="observaciones" name="observaciones" required></textarea><br><br>
 
-        <button type="submit">Enviar</button>
+        <button type="submit">Confirmar asistencia</button>
+        <button onclick="window.history.back()">Regresar</button> <!-- Botón para regresar -->
+    
+
     </form>
 
     <script>

@@ -4,10 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario Residencia Profesional</title>
+ <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        h1, h2 {
+            margin-top: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
 </head>
 <body>
-    <h1>Formulario para Residencia Profesional</h1>
+    
     <form action="/procesar-formulario-residencia" method="POST" onsubmit="return validarFormulario()">
+        <h1>Formulario para Residencia Profesional</h1>
         <h2>Datos de la Entidad Receptora</h2>
         <label for="razon_social">Razón Social:</label>
         <input type="text" id="razon_social" name="razon_social" required><br><br>
@@ -111,7 +158,10 @@
         <label for="nss_imss">NSS o IMSS:</label>
         <input type="text" id="nss_imss" name="nss_imss" required><br><br>
 
-        <button type="submit">Registrar asistencia</button>
+        <button type="submit">Confirmar asistencia</button>
+        <button onclick="window.history.back()">Regresar</button> <!-- Botón para regresar -->
+    
+
     </form>
 
     <script>

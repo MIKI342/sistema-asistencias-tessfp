@@ -29,7 +29,7 @@ router.post('/procesar-formulario-residencia', async (req, res) => {
             nombre,
             matricula,
             carrera,
-            evento = "Residencia profesional",
+            evento = "Residencia profesional", // Valor predeterminado para el campo evento
             am,
             ap,
             g,
@@ -87,45 +87,47 @@ router.post('/procesar-formulario-residencia', async (req, res) => {
             nombre,
             matricula,
             carrera,
-            evento,
+            evento, // Asegúrate de que este campo tiene un valor válido
             am,
             ap,
             g,
             asistio: false,
-            eventoData: {
-                residencia: {
-                    razon_social,
-                    rfc_cct,
-                    direccion,
-                    codigo_postal,
-                    colonia,
-                    municipio,
-                    estado,
-                    tipo_dependencia,
-                    grado_academico,
-                    nombre_persona,
-                    cargo_puesto,
-                    nombre_responsable,
-                    cargo_responsable,
-                    contacto_responsable,
-                    email_responsable,
-                    semestre,
-                    grupo,
-                    total_creditos,
-                    promedio,
-                    telefono_estudiante,
-                    email_estudiante,
-                    direccion_referencia,
-                    colonia_estudiante,
-                    municipio_estudiante,
-                    estado_estudiante,
-                    fecha_nacimiento,
-                    nss_imss,
-                    fecha,
-                    lugar
-                }
+            eventoData:{
+                residencia:  {
+                razon_social,
+                rfc_cct,
+                direccion,
+                codigo_postal,
+                colonia,
+                municipio,
+                estado,
+                tipo_dependencia,
+                grado_academico,
+                nombre_persona,
+                cargo_puesto,
+                nombre_responsable,
+                cargo_responsable,
+                contacto_responsable,
+                email_responsable,
+                semestre,
+                grupo,
+                total_creditos,
+                promedio,
+                telefono_estudiante,
+                email_estudiante,
+                direccion_referencia,
+                colonia_estudiante,
+                municipio_estudiante,
+                estado_estudiante,
+                fecha_nacimiento,
+                nss_imss,
+                
+
+                fecha: platica.fecha,
+                    lugar: platica.lugar 
             }
-        });
+        }
+    });
 
         await nuevoRegistro.save();
 
@@ -134,9 +136,20 @@ router.post('/procesar-formulario-residencia', async (req, res) => {
         return res.render('mostrarQR', {
             successMessage: '¡El registro se ha guardado exitosamente!',
             qrCode,
+            nombre: nuevoRegistro.nombre,
+            am: nuevoRegistro.am,
+
+            ap: nuevoRegistro.ap,
+            matricula: nuevoRegistro.matricula,
+            carrera: nuevoRegistro.carrera,
+
+
             fecha: nuevoRegistro.eventoData.residencia.fecha,
             lugar: nuevoRegistro.eventoData.residencia.lugar,
             tipo_platica: 'Residencia profesional'
+
+
+            
         });
     } catch (error) {
         console.error('Error al guardar el registro:', error);
@@ -270,6 +283,12 @@ router.post('/procesar-formulario-servicio', async (req, res) => {
         return res.render('mostrarQR', {
             successMessage: '¡El registro se ha guardado exitosamente!',
             qrCode,
+            nombre: nuevoRegistro.nombre,
+            am: nuevoRegistro.am,
+
+            ap: nuevoRegistro.ap,
+            matricula: nuevoRegistro.matricula,
+            carrera: nuevoRegistro.carrera,
             fecha: nuevoRegistro.eventoData.servicio.fecha,
             lugar: nuevoRegistro.eventoData.servicio.lugar,
             tipo_platica: 'Servicio social'
@@ -291,24 +310,44 @@ router.post('/procesar-formulario-servicio', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { nombre, matricula } = req.body;
+        console.log('Intento de inicio de sesión con nombre:', nombre, 'y matrícula:', matricula);
 
+        // Verificar si es el administrador
         if (nombre === 'Administrador' && matricula === '1234567890') {
+            console.log('Inicio de sesión como Administrador');
             req.session.usuario = { nombre, matricula, rol: 'admin' };
             return res.redirect('/admin');
         }
 
+        // Buscar el usuario en la base de datos
         const usuario = await Registro.findOne({ nombre, matricula });
+        console.log('Resultado de la búsqueda del usuario:', usuario);
 
         if (usuario) {
+            console.log('Usuario encontrado:', usuario);
             req.session.usuario = usuario; // Establecer el objeto de usuario en la sesión
-            if (usuario.evento === 'Residencia profesional') {
-                return res.render('residencia', { mensaje: '¡Inicio de sesión exitoso! Bienvenido, ' + usuario.nombre });
-            } else if (usuario.evento === 'Servicio social') {
-                return res.render('servicio', { mensaje: '¡Inicio de sesión exitoso! Bienvenido, ' + usuario.nombre });
+
+            // Verificar el tipo de eventoData
+            if (usuario.eventoData) {
+                console.log('Datos del evento encontrados:', usuario.eventoData);
+
+                // Revisar si eventoData tiene clave residencia o servicio
+                if (usuario.eventoData.residencia) {
+                    console.log('Inicio de sesión para Residencia profesional');
+                    return res.render('residencia', { mensaje: '¡Inicio de sesión exitoso! Bienvenido, ' + usuario.nombre });
+                } else if (usuario.eventoData.servicio) {
+                    console.log('Inicio de sesión para Servicio social');
+                    return res.render('servicio', { mensaje: '¡Inicio de sesión exitoso! Bienvenido, ' + usuario.nombre });
+                } else {
+                    console.log('Tipo de programa no permitido');
+                    return res.render('error', { mensaje: 'No tienes acceso a esta área.' });
+                }
             } else {
-                return res.render('error', { mensaje: 'No tienes acceso a esta área.' });
+                console.log('Datos del evento no encontrados');
+                return res.render('error', { mensaje: 'Datos del evento no encontrados.' });
             }
         } else {
+            console.log('Usuario no encontrado');
             return res.render('error', { mensaje: 'Credenciales incorrectas' });
         }
     } catch (error) {
@@ -316,6 +355,7 @@ router.post('/login', async (req, res) => {
         res.status(500).send('Ocurrió un error al procesar tu solicitud');
     }
 });
+
 
 router.get('/admin', async (req, res) => {
     try {

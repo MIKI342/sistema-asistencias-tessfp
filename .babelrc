@@ -1,0 +1,15 @@
+{
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          },
+          "modules": false // Configura Babel para que no transforme los módulos
+        }
+      ]
+    ],
+    "plugins": ["@babel/plugin-transform-runtime"]
+  }
+  

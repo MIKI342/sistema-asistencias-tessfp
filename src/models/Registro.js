@@ -10,6 +10,7 @@ const residenciaSchema = new mongoose.Schema({
     municipio: { type: String, required: true },
     estado: { type: String, required: true },
     tipo_dependencia: { type: String, required: true, enum: ['Pública', 'Privada', 'Mismo Tecnológico'] },
+    
     grado_academico: { type: String, required: true },
     nombre_persona: { type: String, required: true },
     cargo_puesto: { type: String, required: true },
@@ -17,6 +18,7 @@ const residenciaSchema = new mongoose.Schema({
     cargo_responsable: { type: String, required: true },
     contacto_responsable: { type: String, required: true },
     email_responsable: { type: String, required: true },
+    
     semestre: { type: String, required: true },
     total_creditos: { type: String, required: true },
     promedio: { type: String, required: true },
@@ -28,6 +30,11 @@ const residenciaSchema = new mongoose.Schema({
     estado_estudiante: { type: String, required: true },
     fecha_nacimiento: { type: String, required: true },
     nss_imss: { type: String, required: true },
+
+
+
+
+
     fecha: { type: Date, default: Date.now },
     lugar: { type: String, default: 'No especificado' },
     tipo_platica: { type: String, default: 'General' }
@@ -36,6 +43,7 @@ const residenciaSchema = new mongoose.Schema({
 const servicioSchema = new mongoose.Schema({
     promedio: { type: String, required: true },
     creditos: { type: String, required: true },
+    
     entidad_receptora: { type: String, required: true },
     tip: { type: String, required: true, enum: ['Federal', 'Estatal', 'Municipal','O.N.G', 'I.E', 'I.P'] },
     rfc: { type: String, required: true },
@@ -53,6 +61,7 @@ const servicioSchema = new mongoose.Schema({
     dependencia: { type: String, required: true },
     area: { type: String, required: true },
     grado_academico: { type: String, required: true },
+    
     cargo: { type: String, required: true },
     tipo_programa: { type: String, required: true },
     aceptado: { type: String, required: true, enum: ['Si', 'No'] },
@@ -69,7 +78,8 @@ const registroSchema = new mongoose.Schema({
     matricula: { type: String, required: true, unique: true, minlength: 10, maxlength: 10, match: /^[0-9]+$/ },
     g: { type: String, required: true, minlength: 3, maxlength: 3, match: /^[0-9]+$/ },
     carrera: { type: String, required: true, enum: ['Ingeniería informática', 'Ingeniería civil', 'Ingeniería química', 'Ingeniería en industrias alimentarias', 'Contador público', 'Ingeniería en energías renovables'] },
-    evento: { type: String, required: true, enum: ['Servicio social', 'Residencia profesional'] },
+    evento: { type: String, required: true },
+
     fechaRegistro: { type: Date, default: Date.now },
     asistio: { type: Boolean, default: false },
     eventoData: {
